@@ -14,25 +14,27 @@ enum Priority {
 }
 
 model Task {
-  id          String @id @default(uuid())
+  id          String    @id @default(uuid())
   title       String
   description String
-  priority  Priority
-  completed Boolean  @default(false)
-  createdAT DateTime  @default(now())
-  endAT     DateTime?
+  priority    Priority
+  completed   Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  endAt       DateTime?
 
   subTasks SubTask[] @relation(name: "TasksToSubTasks")
+
+  @@map("tasks")
 }
 
 model SubTask {
-  id          String @id @default(uuid())
+  id          String    @id @default(uuid())
   title       String
   description String
-  priority Priority?
-  completed Boolean   @default(false)
-  createdAT DateTime  @default(now())
-  endAT     DateTime?
+  priority    Priority?
+  completed   Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  endAt       DateTime?
 
   taskId String
   task   Task   @relation(name: "TasksToSubTasks", fields: [taskId], references: [id])
