@@ -21,6 +21,12 @@ export async function getTask(app: FastifyInstance) {
                         endAt: z.string().optional().nullable() ,
                         subTasks: z.array(z.object({
                             id: z.string().uuid(),
+                            title: z.string(),
+                            description: z.string(),
+                            priority: z.enum(['LOW', 'MEDIUM', 'HIGH']).optional(),
+                            completed: z.boolean(),
+                            createdAt: z.string(),
+                            endAt: z.string().optional().nullable() ,
                         })).optional(),
                     })
                 })
@@ -44,6 +50,12 @@ export async function getTask(app: FastifyInstance) {
                     subTasks: {
                         select: {
                             id: true,
+                            title: true,
+                            description: true,
+                            priority: true,
+                            completed: true,
+                            createdAt: true,
+                            endAt: true,
                         }
                     }
                 },
@@ -64,6 +76,12 @@ export async function getTask(app: FastifyInstance) {
                     subTasks: {
                         select: {
                             id: true,
+                            title: true,
+                            description: true,
+                            priority: true,
+                            completed: true,
+                            createdAt: true,
+                            endAt: true,
                         }
                     }
                 },
@@ -86,7 +104,17 @@ export async function getTask(app: FastifyInstance) {
                 completed: task.completed,
                 createdAt: task.createdAt.toLocaleDateString('pt-BR'),
                 endAt: task.endAt?.toLocaleDateString('pt-BR'),
-                subTasks: task.subTasks
+                subTasks: task.subTasks.map(subTask => {
+                    return {
+                        id: subTask.id,
+                        title: subTask.title,
+                        description: subTask.description,
+                        priority: subTask.priority ?? undefined,
+                        completed: subTask.completed,
+                        createdAt: subTask.createdAt.toLocaleDateString('pt-BR'),
+                        endAt: subTask.endAt?.toLocaleDateString('pt-BR'),
+                    }
+                })
             } 
         })
     })

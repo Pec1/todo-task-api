@@ -7,6 +7,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id           String   @id @default(uuid())
+  name         String
+  email        String   @unique
+  passwordHash String?  @map("password_hash")
+  avatarUrl    String?  @map("avatar_url")
+  createdAt    DateTime @default(now()) @map("created_at")
+  //updateAt     DateTime @default(now()) @map("update_at") @updateAt
+
+  @@map("users")
+}
+
 enum Priority {
   LOW
   MEDIUM
@@ -38,4 +50,6 @@ model SubTask {
 
   taskId String
   task   Task   @relation(name: "TasksToSubTasks", fields: [taskId], references: [id])
+
+  @@map("sub-tasks")
 }
