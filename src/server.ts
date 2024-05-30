@@ -2,7 +2,7 @@ import fastify from "fastify";
 import { createTask } from "./routes/create-task";
 import { serializerCompiler, validatorCompiler } from "fastify-type-provider-zod";
 import { getTask } from "./routes/get-task";
-import { addSubTask } from "./routes/put-sub-on-task";
+import { addSubTask } from "./routes/put-subTask";
 
 const app = fastify();
 
